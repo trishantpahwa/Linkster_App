@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 import './CustomInputField.dart';
+import 'dart:async';
+import 'dart:convert';
 
 class Login extends StatefulWidget {
   @override
@@ -44,8 +47,10 @@ class _LoginState extends State<Login> {
       )
     );
   }
-  login(username, password) {
-    print(username.text);
-    print(password.text);
+  login(username, password) async {
+    String uri = 'http://192.168.1.28:3000/User/' + username.text + '/login';
+    var response = await http.post(uri, body: jsonEncode(<String, String>{'Password': password.text}));
+    print(response.statusCode);
+    print(response.body);
   }
 }
