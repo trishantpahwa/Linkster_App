@@ -1,8 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import './CustomInputField.dart';
-import 'dart:async';
-import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Login extends StatefulWidget {
   @override
@@ -49,8 +50,10 @@ class _LoginState extends State<Login> {
   }
   login(username, password) async {
     String uri = 'http://192.168.1.28:3000/User/' + username.text + '/login';
-    var response = await http.post(uri, body: jsonEncode(<String, String>{'Password': password.text}));
-    print(response.statusCode);
-    print(response.body);
+    var response = await http.post(uri, body: {"Password": password.text});
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'Token';
+    final value = json.decode(response.body)['Token'];
+    prefs.setString(key, value);
   }
 }
