@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import './Dashboard.dart';
 import './Login.dart';
 
 
@@ -18,6 +20,22 @@ class MyApp extends StatelessWidget {
 class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Login();
+    return FutureBuilder(
+      future: checkLogin(),
+      builder: (BuildContext context, AsyncSnapshot snapshot){      
+        var value = snapshot.data;
+        if(value == null) {
+          return Login();
+        } else {
+          return Dashboard();
+        }
+      }
+    );
+  }
+  checkLogin() async {
+    var prefs = await SharedPreferences.getInstance();
+    final key = 'Token';
+    final value = prefs.getString(key);
+    return value;
   }
 }
