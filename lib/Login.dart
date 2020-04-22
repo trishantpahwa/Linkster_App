@@ -19,6 +19,9 @@ class _LoginState extends State<Login> {
   Widget build(BuildContext context) {
     
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Linkster')
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

@@ -14,6 +14,17 @@ class _DashboardState extends State<Dashboard> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: Text('Linkster'),
+        actions: <Widget>[
+          IconButton(
+            icon: Icon(Icons.power_settings_new),
+            onPressed: (){
+              logout();
+            },
+          )
+        ]
+      ),
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,
@@ -25,5 +36,11 @@ class _DashboardState extends State<Dashboard> {
         )
       )
     );  
+  }
+  logout() async {
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'Token';
+    final value = null;
+    prefs.setString(key, value);
   }
 }

@@ -25,16 +25,22 @@ class MicrocontrollersList extends StatelessWidget {
                     children: [                    
                         for(String switchName in snapshot.data[index]['Switches'])
                         Column(children: <Widget>[
-                          Text(switchName, style: TextStyle(fontSize: 20)),
+                          Text(switchName, style: TextStyle(fontSize: 20, color: Colors.white)),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                            RaisedButton(child: Text('On'), onPressed: (){
-                              switchOn(snapshot.data[index]['Name'], switchName);
-                            }),
-                            RaisedButton(child: Text('Off'), onPressed: (){
-                              switchOff(snapshot.data[index]['Name'], switchName);
-                            })
+                            RaisedButton(
+                              color: Colors.deepOrange,
+                              child: Text('On', style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                              onPressed: (){
+                                switchOn(snapshot.data[index]['Name'], switchName);
+                              }
+                            ),
+                            RaisedButton(color: Colors.deepOrange,
+                              child: Text('Off', style: TextStyle(fontSize: 20.0, color: Colors.white)),
+                              onPressed: (){
+                                switchOff(snapshot.data[index]['Name'], switchName);
+                              })
                           ],)
                         ])
                       ],
