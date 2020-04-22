@@ -41,7 +41,7 @@ class CustomInputField extends StatelessWidget {
                   ),
                   obscureText: secureText,
                   style: TextStyle(
-                    fontSize: 20.0,
+                    fontSize: 10.0,
                     color: Colors.black
                   )
                 )

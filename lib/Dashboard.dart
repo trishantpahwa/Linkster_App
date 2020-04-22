@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
+import './Login.dart';
 import 'package:linkster_app/MicrocontrollersList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
@@ -20,7 +20,7 @@ class _DashboardState extends State<Dashboard> {
           IconButton(
             icon: Icon(Icons.power_settings_new),
             onPressed: (){
-              logout();
+              logout(context);
             },
           )
         ]
@@ -37,10 +37,17 @@ class _DashboardState extends State<Dashboard> {
       )
     );  
   }
-  logout() async {
+  logout(context) async {
     final prefs = await SharedPreferences.getInstance();
     final key = 'Token';
     final value = null;
     prefs.setString(key, value);
+    Navigator.of(context).push(
+      new MaterialPageRoute(
+        builder: (BuildContext context){
+          return new Login();
+        }
+      )
+    );
   }
 }
