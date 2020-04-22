@@ -29,8 +29,12 @@ class MicrocontrollersList extends StatelessWidget {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
-                            RaisedButton(child: Text('On'), onPressed: (){}),
-                            RaisedButton(child: Text('Off'), onPressed: (){})
+                            RaisedButton(child: Text('On'), onPressed: (){
+                              switchOn(snapshot.data[index]['Name'], switchName);
+                            }),
+                            RaisedButton(child: Text('Off'), onPressed: (){
+                              switchOff(snapshot.data[index]['Name'], switchName);
+                            })
                           ],)
                         ])
                       ],
@@ -41,6 +45,32 @@ class MicrocontrollersList extends StatelessWidget {
         }
       },
     );
+  }
+  switchOn(microControllerName, switchName) async {
+    String uri = 'http://192.168.1.28:3000/Microcontroller/' + microControllerName + '/Switch/' + switchName + '/on';
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'Token';
+    final value = prefs.getString(key);
+    var response = await http.get(uri, headers: {"Token": value});
+    if(response.statusCode == 200) {
+      print(switchName + ' switched on.');
+    } else {
+      print(response.statusCode);
+      print('Error');
+    }
+  }
+  switchOff(microControllerName, switchName) async {
+    String uri = 'http://192.168.1.28:3000/Microcontroller/' + microControllerName + '/Switch/' + switchName + '/off';
+    final prefs = await SharedPreferences.getInstance();
+    final key = 'Token';
+    final value = prefs.getString(key);
+    var response = await http.get(uri, headers: {"Token": value});
+    if(response.statusCode == 200) {
+      print(switchName + ' switched off.');
+    } else {
+      print(response.statusCode);
+      print('Error');
+    }
   }
   getMicrocontrollers() async {
     String uri = 'http://192.168.1.28:3000/Microcontroller';
