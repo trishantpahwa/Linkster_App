@@ -13,15 +13,31 @@ class MicrocontrollersList extends StatelessWidget {
         if (snapshot.hasError)
           return new Text('Error: ${snapshot.error}');
         switch (snapshot.connectionState) {
-          case ConnectionState.waiting: return new Text('Loading...');
+          case ConnectionState.waiting: return new Text('Loading...', style: TextStyle(fontSize: 35, color: Colors.deepOrange));
           default:
-            return new ListView(
-              children: snapshot.data.map((value) {              
-                return new ListTile(
-                  title: new Text(value['Name']),
-                );
-              }).toList(),
-            );
+            return new ListView.builder(
+              itemCount: snapshot.data.length,
+              itemBuilder: (BuildContext context, int index) {              
+                return new Column(
+                  children: <Widget>[
+                    Text(snapshot.data[index]['Name'], style: TextStyle(fontSize: 30, color: Colors.deepOrange)),
+                    Column(
+                    children: [                    
+                        for(String switchName in snapshot.data[index]['Switches'])
+                        Column(children: <Widget>[
+                          Text(switchName, style: TextStyle(fontSize: 20)),
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                            RaisedButton(child: Text('On'), onPressed: (){}),
+                            RaisedButton(child: Text('Off'), onPressed: (){})
+                          ],)
+                        ])
+                      ],
+                    )
+                  ]
+                );             
+            });
         }
       },
     );
@@ -44,7 +60,7 @@ class MicrocontrollersList extends StatelessWidget {
           Microcontrollers.add(Microcontroller);
         }
       }
-    }
+    }  
     return Microcontrollers;
   }
 }

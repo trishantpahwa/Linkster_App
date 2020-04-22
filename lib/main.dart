@@ -36,6 +36,7 @@ class HomeScreen extends StatelessWidget {
     var prefs = await SharedPreferences.getInstance();
     final key = 'Token';
     final value = prefs.getString(key);
+    print(value);
     return value;
   }
 }
