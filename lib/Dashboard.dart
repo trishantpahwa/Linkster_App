@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './Login.dart';
 import 'package:linkster_app/MicrocontrollersList.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import 'dart:convert';
 
 
@@ -38,16 +39,29 @@ class _DashboardState extends State<Dashboard> {
     );  
   }
   logout(context) async {
+    String uri = 'http://192.168.1.28:3000/User/logout';
     final prefs = await SharedPreferences.getInstance();
     final key = 'Token';
-    final value = null;
-    prefs.setString(key, value);
-    Navigator.of(context).push(
-      new MaterialPageRoute(
-        builder: (BuildContext context){
-          return new Login();
-        }
-      )
-    );
+    var value = prefs.getString(key);
+    var response = await http.get(uri, headers: {"Token": value});
+    if(response.statusCode == 200) {
+      value = null;
+      prefs.setString(key, value);
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+          builder: (BuildContext context){
+            return new Login();
+          }
+        )
+      );
+    } else {
+      Navigator.of(context).push(
+        new MaterialPageRoute(
+          builder: (BuildContext context){
+            return new Dashboard();
+          }
+        )
+      );
+    }
   }
 }
